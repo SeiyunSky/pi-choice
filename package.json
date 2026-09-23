@@ -1,6 +1,6 @@
 {
   "name": "pi-choices",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pi extension — structured interactive question forms (radio, checkbox, free-text input) for collecting user decisions inside a Pi agent session.",
   "keywords": [
     "pi-package",
