@@ -1,0 +1,7 @@
+lib/
+extensions/
+!lib/*.ts
+!extensions/*.ts
+node_modules/
+*.log
+.DS_Store
