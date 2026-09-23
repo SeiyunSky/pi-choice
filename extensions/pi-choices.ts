@@ -32,9 +32,9 @@ export default function piChoices(pi: ExtensionAPI) {
 			),
 			title: Type.Optional(Type.String({ description: "Optional title shown at the top of the form." })),
 		}),
-		async execute(input, ctx) {
+		async execute(_toolCallId, input, _signal, _onUpdate, ctx) {
 			if (ctx.mode !== "tui" || !ctx.hasUI) {
-				return { type: "text" as const, text: "pi_choices requires an interactive TUI session." };
+				return { content: [{ type: "text" as const, text: "pi_choices requires an interactive TUI session." }] };
 			}
 
 			const questions = input.questions as Question[];
@@ -43,10 +43,10 @@ export default function piChoices(pi: ExtensionAPI) {
 			const answers: Answers | undefined = await ask(ctx, questions, options);
 
 			if (answers === undefined) {
-				return { type: "text" as const, text: "User cancelled the choices form." };
+				return { content: [{ type: "text" as const, text: "User cancelled the choices form." }] };
 			}
 
-			return { type: "text" as const, text: JSON.stringify(answers, null, 2) };
+			return { content: [{ type: "text" as const, text: JSON.stringify(answers, null, 2) }] };
 		},
 	});
 }
