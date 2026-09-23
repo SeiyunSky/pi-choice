@@ -110,7 +110,7 @@ pi install npm:pi-choices
 Or from GitHub:
 
 ```bash
-pi install git:github.com/SeiyunSky/pi-choices
+pi install git:github.com/SeiyunSky/pi-choice
 ```
 
 ## Requirements
