@@ -1,0 +1,40 @@
+{
+  "name": "pi-choices",
+  "version": "0.1.0",
+  "description": "Pi extension — structured interactive question forms (radio, checkbox, free-text input) for collecting user decisions inside a Pi agent session.",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-extension",
+    "choices",
+    "form",
+    "approval",
+    "decision",
+    "interactive"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions"
+    ]
+  },
+  "main": "lib/choices.ts",
+  "files": [
+    "extensions/",
+    "lib/",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": ">=0.85.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SeiyunSky/pi-choices.git"
+  },
+  "homepage": "https://github.com/SeiyunSky/pi-choices#readme",
+  "author": "SeiyunSky"
+}
