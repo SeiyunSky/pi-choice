@@ -10,10 +10,7 @@ export default function piChoices(pi: ExtensionAPI) {
 		name: "pi_choices",
 		description:
 			"Present one or more structured questions to the user and collect answers. " +
-			"Supports radio (single choice), checkbox (multiple choice), and input (free text) questions. " +
-			"Questions are shown one at a time with a progress indicator. " +
-			"Returns a JSON object mapping each question id to its answer, " +
-			"or a cancellation message if the user pressed Esc.",
+			"Before making any engineering decision the user hasn't specified, use this tool to clarify requirements and align with them.",
 		parameters: Type.Object({
 			questions: Type.Array(
 				Type.Object({
