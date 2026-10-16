@@ -15,7 +15,7 @@ Which DELETE scope should be protected?
   ○ Only DELETE without WHERE clause
 ```
 
-### Checkbox — multiple choice (space to toggle, enter to confirm)
+### Checkbox — multiple choice (Enter to toggle, confirm row to submit)
 ```
 Which features do you want to include?
   ☑ Session Library
@@ -30,7 +30,7 @@ What should the default target language be?
   > Chinese _
 ```
 
-All three types support an **"Other…"** option (`allowOther: true`) that expands into a free-text field when selected.
+Radio and checkbox questions support an **"Other…"** option (`allowOther: true`) that expands into a free-text field when selected.
 
 Questions are shown **one at a time** with a `Question N / Total` progress indicator.
 
@@ -73,7 +73,7 @@ Returns:
 }
 ```
 
-If the user presses `Esc` at any point, the tool returns `"User cancelled the choices form."`.
+`Esc` on a question cancels the form. On the `Other…` free-text screen, `Esc` returns to that question instead.
 
 ## Usage — other extensions (bridge)
 
@@ -97,20 +97,27 @@ if (bridge) {
 | Key | Action |
 |-----|--------|
 | `↑` / `↓` | Navigate options |
-| `Space` | Toggle checkbox item |
-| `Enter` | Confirm selection / submit input |
-| `Esc` | Cancel and abort the entire form |
+| `Enter` | Radio: choose. Checkbox: toggle the focused item; choose `✓ Confirm selections` to submit. Input: submit. |
+| `←` / empty `Backspace` | Return to the previous question (answers are retained) |
+| `Esc` | Cancel on a question; return to the question from an `Other…` text field |
 
 ## Installation
 
 ```bash
 pi install npm:pi-choices
+pi update npm:pi-choices
 ```
 
 Or from GitHub:
 
 ```bash
 pi install git:github.com/SeiyunSky/pi-choice
+```
+
+For local development:
+
+```bash
+pi install ./local-package
 ```
 
 ## Requirements

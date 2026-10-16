@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
-import { ask, CHOICES_BRIDGE_KEY, type Answers, type ChoicesOptions, type Question } from "../lib/choices.ts";
+import { ask, CHOICES_BRIDGE_KEY, type Answers, type Question } from "../lib/choices.ts";
 
 export default function piChoices(pi: ExtensionAPI) {
 	// Publish bridge so other extensions can use pi-choices without import coupling
@@ -27,17 +27,15 @@ export default function piChoices(pi: ExtensionAPI) {
 				}),
 				{ description: "Questions to ask the user in order, one at a time." },
 			),
-			title: Type.Optional(Type.String({ description: "Optional title shown at the top of the form." })),
-		}),
+			}),
+		exposure: "model-only",
 		async execute(_toolCallId, input, _signal, _onUpdate, ctx) {
 			if (ctx.mode !== "tui" || !ctx.hasUI) {
 				return { content: [{ type: "text" as const, text: "pi_choices requires an interactive TUI session." }] };
 			}
 
 			const questions = input.questions as Question[];
-			const options: ChoicesOptions = { title: input.title as string | undefined };
-
-			const answers: Answers | undefined = await ask(ctx, questions, options);
+			const answers: Answers | undefined = await ask(ctx, questions);
 
 			if (answers === undefined) {
 				return { content: [{ type: "text" as const, text: "User cancelled the choices form." }] };
