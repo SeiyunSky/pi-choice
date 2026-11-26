@@ -1,5 +1,4 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { DynamicBorder } from "@earendil-works/pi-coding-agent";
 import { Container, Input, SelectList, Spacer, Text, type SelectItem } from "@earendil-works/pi-tui";
 
 export type RadioQuestion = {
@@ -50,7 +49,6 @@ function hint(type: Question["type"], index: number): string {
 }
 
 function frame(container: Container, theme: { fg(name: string, text: string): string; bold(text: string): string }, question: string, index: number, total: number): void {
-	container.addChild(new DynamicBorder((s) => theme.fg("accent", s)));
 	if (total > 1) container.addChild(new Text(theme.fg("dim", progress(index + 1, total)), 1, 0));
 	container.addChild(new Text(theme.fg("accent", theme.bold(question)), 1, 0));
 	container.addChild(new Spacer(1));
@@ -87,7 +85,6 @@ async function askRadio(
 		container.addChild(list);
 		container.addChild(new Spacer(1));
 		container.addChild(new Text(theme.fg("dim", hint("radio", index)), 1, 0));
-		container.addChild(new DynamicBorder((s) => theme.fg("accent", s)));
 		return {
 			render: (width) => container.render(width),
 			invalidate: () => container.invalidate(),
@@ -120,7 +117,6 @@ async function askCheckbox(
 		container.addChild(listText);
 		container.addChild(new Spacer(1));
 		container.addChild(new Text(theme.fg("dim", hint("checkbox", index)), 1, 0));
-		container.addChild(new DynamicBorder((s) => theme.fg("accent", s)));
 
 		const redraw = () => {
 			const lines = options.map((option, optionIndex) => {
@@ -142,7 +138,7 @@ async function askCheckbox(
 			handleInput: (data) => {
 				if ((data === "\x1b[D" || data === "\x7f") && index > 0) { done(BACK); return; }
 				if (data === "\x1b") { done(undefined); return; }
-				if (data === "\x1b[A" || data === "k") cursor = (cursor + options.length) % (options.length + 1);
+				if (data === "\x1b[A" || data === "k") cursor = (cursor - 1 + options.length + 1) % (options.length + 1);
 				else if (data === "\x1b[B" || data === "j") cursor = (cursor + 1) % (options.length + 1);
 				else if (data === "\r" || data === "\n") {
 					if (cursor === options.length) { done(Array.from(selected)); return; }
@@ -170,14 +166,13 @@ async function askInput(
 		input.setValue(previous);
 		input.onSubmit = (value) => {
 			const trimmed = value.trim();
-			if (!trimmed) return;
+			if (!trimmed) { tui.requestRender(); return; }
 			done(trimmed);
 		};
 		input.onEscape = () => done(undefined);
 		container.addChild(input);
 		container.addChild(new Spacer(1));
 		container.addChild(new Text(theme.fg("dim", hint("input", index)), 1, 0));
-		container.addChild(new DynamicBorder((s) => theme.fg("accent", s)));
 		return {
 			render: (width) => container.render(width),
 			invalidate: () => container.invalidate(),
@@ -193,7 +188,6 @@ async function askInput(
 async function askOtherText(ctx: ExtensionContext, question: string, previous = ""): Promise<string | Back | undefined> {
 	return ctx.ui.custom<string | Back | undefined>((tui, theme, _kb, done) => {
 		const container = new Container();
-		container.addChild(new DynamicBorder((s) => theme.fg("accent", s)));
 		container.addChild(new Text(theme.fg("muted", `Other — ${question}`), 1, 0));
 		container.addChild(new Spacer(1));
 		const input = new Input({ placeholder: "Enter your answer..." });
@@ -207,7 +201,6 @@ async function askOtherText(ctx: ExtensionContext, question: string, previous = 
 		container.addChild(input);
 		container.addChild(new Spacer(1));
 		container.addChild(new Text(theme.fg("dim", "type answer  |  Enter confirm  |  empty Enter / Esc ← back"), 1, 0));
-		container.addChild(new DynamicBorder((s) => theme.fg("accent", s)));
 		return {
 			render: (width) => container.render(width),
 			invalidate: () => container.invalidate(),
